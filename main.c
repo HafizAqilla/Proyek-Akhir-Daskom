@@ -3,11 +3,11 @@
 
 //enih bagian restocking punya hapis
 
-typedef struct {
+typedef struct Item{
     char name [30];
     int stock;
     float price;
-}Item;
+};
 
 void MenuTampilan(){ //Fungsi untuk menampilkan display untuk memilih kegiatan yang ingin dilakukan
     printf("1. Tampilkan item\n");
@@ -15,4 +15,8 @@ void MenuTampilan(){ //Fungsi untuk menampilkan display untuk memilih kegiatan y
     printf("3. Tampilkan modal\n");
     printf("4. Keluar\n");
     printf("Masukkan pilihan anda: ");
+}
+
+void ItemTampil(Item items[]{  //Fungsi pertama, untuk menampilkan item yang ada  
+
 }
