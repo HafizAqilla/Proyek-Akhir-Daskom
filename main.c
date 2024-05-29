@@ -7,7 +7,9 @@ typedef struct Item{
     char name [30];
     int stock;
     float price;
-};
+    float hargaJual;
+    float hargaModal;
+} Item;
 
 void MenuTampilan(){ //Fungsi untuk menampilkan display untuk memilih kegiatan yang ingin dilakukan
     printf("1. Tampilkan item\n");
@@ -17,13 +19,37 @@ void MenuTampilan(){ //Fungsi untuk menampilkan display untuk memilih kegiatan y
     printf("Masukkan pilihan anda: ");
 }
 
-void ItemTampil(Item items[]{  //Fungsi pertama, untuk menampilkan item yang ada  
-
+void ItemTampil(Item items[]) { //Fungsi untuk menampilkan item
+    printf("\nItem Database:\n");
+    for (int i = 0; i < NUM_ITEMS; i++) {
+        printf("%d. %s - Harga Jual: %.2f - Stock: %d\n", i+1, items[i].name, items[i].hargaJual, items[i].stock);
+    }
 }
 
+void RestockBarang(Item items[]) { //Fungsi untuk ngerestock barang
+    int itemNumber, jumlah;
+    printf("\nMasukkan nomor item yang ingin direstock: ");
+    scanf("%d", &itemNumber);
+    printf("Masukkan jumlah restock untuk %s: ", items[itemNumber-1].name);
+    scanf("%d", &jumlah);
+    items[itemNumber-1].stock += jumlah;
+    printf("Stock %s sekarang: %d\n", items[itemNumber-1].name, items[itemNumber-1].stock);
+}
+
+void TampilkanModal(Item items[], float modalAwal) { //Fungsi buat nampilin modal
+    float totalPengeluaran = 0;
+    for (int i = 0; i < NUM_ITEMS; i++) {
+        totalPengeluaran += items[i].stock * items[i].hargaModal;
+    }
+    float totalModal = modalAwal - totalPengeluaran;
+    printf("\nTotal modal yang tersisa: %.2f\n", totalModal);
+}
+
+
+
 // NAI DATABASE
-// definenya mau pake buffer size atau num item?
-//nama structnya apa? Item?
+// definenya mau pake buffer size atau num item? 
+//nama structnya apa? Item? Iya, pake struct item ya samain dengan yang di atas
 int main () {
     Item items[NUM_ITEMS] ={ //sesuai num of items diatas
         {"Garam", 3000.0, 5000.0, 0}, // angka pertama itu harga modal, yg kedua harga jual, terus gw pakein 0 buat stop. [jadi yg diatas kayaknya price perlu dua versi : hargaJual sama hargaModal]
@@ -54,3 +80,5 @@ int main () {
         printf("\n%d. %s - Harga Modal: %.2f", i+1, items[i].name, items[i].hargaModal);
     }
 }
+
+// yang bagian switch buat menunya siapa nih
