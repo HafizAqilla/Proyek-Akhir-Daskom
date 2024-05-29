@@ -29,8 +29,7 @@ int main(void) {
     void PrintDatabase();
 
     // Input data pemasukan
-    inputData(barang, n, Database);
-    InitializeDatabase(&barangdummy);
+    inputData(barang, n);
 
     // Output data pemasukan
     printf("--DATA PEMASUKAN %s--\n", barang[0].tanggal);
@@ -47,19 +46,20 @@ int main(void) {
     return 0;
 }
 
-void inputData(DataBarang *barang, int jumlah_tipebarang, Database) {
+void inputData(DataBarang *barang, int jumlah_tipebarang) {
+    InitializeDatabase(&barangdummy);
     printf("Masukkan tanggal pembelian: ");
     fgets(barang[0].tanggal, BUFFER_SIZE, stdin);
     barang[0].tanggal[strcspn(barang[0].tanggal, "\n")] = '\0';
 
     printf("Masukkan nomor barang: ");
-    scanf("%d", &Database.items[]);
+    scanf("%d", &barangdummy.items[]);
     
     printf("Masukkan jumlah barang: ");
-    scanf("%d", &(barang.jumlah));
+    scanf("%d", &barang.jumlah);
 
     printf("Masukkan harga barang: ");
-    scanf("%d", &(barang.harga));
+    scanf("%d", &barang.harga);
 
     barang[i].total_harga = barang[i].jumlah * barang[i].harga;
     getchar();

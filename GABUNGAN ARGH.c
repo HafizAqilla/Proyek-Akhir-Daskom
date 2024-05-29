@@ -54,7 +54,7 @@ void InitializeDatabase(Item *barangdummy) {
         {"Ayam Mentah", 10, 20000.0, 25000.0, 0},
         {"Susu", 10, 30000.0, 35000.0, 0} ///10 doang, minimarket versi lite
     } 
-}
+};
 
 void PrintDatabase(){
     printf("\nItem Database:\n");//RECORD
