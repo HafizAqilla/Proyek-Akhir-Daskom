@@ -1,7 +1,7 @@
 #include <stdio.h>
 #define NUM_ITEMS 10
 
-//enih bagian restocking punya hapis
+//Restocking Hafiz
 
 typedef struct Item{
     char name [30];
