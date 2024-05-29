@@ -12,11 +12,13 @@ typedef struct Item{
 } Item;
 
 void MenuTampilan(){ //Fungsi untuk menampilkan display untuk memilih kegiatan yang ingin dilakukan
+    int pilihan;
     printf("1. Tampilkan item\n");
     printf("2. Restock barang\n");
     printf("3. Tampilkan modal\n");
     printf("4. Keluar\n");
     printf("Masukkan pilihan anda: ");
+    scanf("%d, pilihan");
 }
 
 void ItemTampil(Item items[]) { //Fungsi untuk menampilkan item
@@ -54,7 +56,7 @@ int main () {
     Item items[NUM_ITEMS] ={ //sesuai num of items diatas
         {"Garam", 3000.0, 5000.0, 0}, // angka pertama itu harga modal, yg kedua harga jual, terus gw pakein 0 buat stop. [jadi yg diatas kayaknya price perlu dua versi : hargaJual sama hargaModal]
         {"Kopi", 6500.0, 8000.0, 0},
-        {"Teh", 6000.0 7500.0, 0},
+        {"Teh", 6000.0, 7500.0, 0},
         {"Beras", 11500.0, 13000.0, 0},
         {"Telur", 2000.0, 3000.0, 0},
         {"Tepung", 8000.0, 10000.0, 0},
@@ -79,6 +81,31 @@ int main () {
     for (int i = 0; i < NUM_ITEMS; i++) {//RESTOCK
         printf("\n%d. %s - Harga Modal: %.2f", i+1, items[i].name, items[i].hargaModal);
     }
+        int pilihan;
+
+    void MenuTampilan(pilihan);
+int pilihan;
+    return pilihan;
+
+
+    switch (pilihan){
+
+        case 1:
+        void ItemTampil ();
+
+        case 2:
+        void RestockBarang ();
+
+       
+         
+
+    }
 }
 
-// yang bagian switch buat menunya siapa nih
+
+
+
+
+
+
+    
