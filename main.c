@@ -82,25 +82,26 @@ int main () {
         printf("\n%d. %s - Harga Modal: %.2f", i+1, items[i].name, items[i].hargaModal);
     }
         int pilihan;
+        float modalAwal;
 
-    void MenuTampilan(pilihan);
-int pilihan;
-    return pilihan;
+        int MenuTampilan();
+        scanf("%d", &pilihan);
 
-
-    switch (pilihan){
-
-        case 1:
-        void ItemTampil ();
-
-        case 2:
-        void RestockBarang ();
-
-       
-         
-
-    }
-}
+        switch (pilihan) {
+            case 1:
+                ItemTampil(items);
+                break;
+            case 2:
+                RestockBarang(items);
+                break;
+            case 3:
+                TampilkanModal(items, modalAwal);
+                break;
+            case 4:
+                return 0;
+            default:
+                printf("Pilihan tidak valid.\n");
+        }
 
 
 
