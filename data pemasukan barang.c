@@ -9,9 +9,10 @@
 typedef struct DataBarang {
     int jumlah;
     char tanggal[BUFFER_SIZE];
-    char nama[BUFFER_SIZE];
     int harga;
     int total_harga;
+    int stock_now
+    Item items [NUM_ITEMS];
 } DataBarang;
 
 void inputData(DataBarang *barang, int jumlah_tipebarang);
@@ -34,9 +35,9 @@ int main(void) {
     // Output data pemasukan
     printf("--DATA PEMASUKAN %s--\n", barang[0].tanggal);
     for (int i = 0; i < n; i++) {
-        printf("Nomor Barang: %d", barang[i].nama);
+        printf("Nama Barang: %d", barangdummy[i].items.name);
         printf("Jumlah Barang: %d\n", barang[i].jumlah);
-        printf("Harga Barang: %d\n", barang[i].harga);
+        printf("Harga Barang: %d\n", barangdummy[i].items.hargaJual);
         printf("Total Harga Barang: %d\n", barang[i].total_harga);
         printf("\n");
     }
@@ -52,14 +53,16 @@ void inputData(DataBarang *barang, int jumlah_tipebarang) {
     fgets(barang[0].tanggal, BUFFER_SIZE, stdin);
     barang[0].tanggal[strcspn(barang[0].tanggal, "\n")] = '\0';
 
+    for (int i = 0; i < jumlah_tipebarang; i ++) {
     printf("Masukkan nomor barang: ");
-    scanf("%d", &barangdummy.items[]);
+    scanf("%d", &barangdummy.items.name);
     
     printf("Masukkan jumlah barang: ");
     scanf("%d", &barang.jumlah);
 
-    printf("Masukkan harga barang: ");
-    scanf("%d", &barang.harga);
+    barang.stock_now = barangdummy.items.stock - barang.jumlah;
+    }
+
 
     barang[i].total_harga = barang[i].jumlah * barang[i].harga;
     getchar();
