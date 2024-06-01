@@ -4,11 +4,26 @@
 #define NUM_ITEMS 10
 #define BUFFER_SIZE 50
 
+
+//MAIN PROBLEM RN
+//belum ada pemasukan
+//belum ada looping
+//belum tau gimana hubungin stock barang dummy(tambah/kurang)
+//belum ada tampilan profit/defisit
+//pas restock/jurnaling kurang tampilan database
+//(tambahin masalah disini)
+
+//OPTIONAL PROBLEM
+//rapihin tampilan program
+//database bikin tabel
+//daftar akun buat pemilik toko
+
+
 //STRUCT ITEMS FOR ALL//
 typedef struct Item{
         char name[30];
         int stock;
-        float price;
+        float hargaMarket;
         float hargaJual;
         float hargaModal;
     } Item;
@@ -17,7 +32,7 @@ typedef struct Item{
 
 //FUNCTION DECLARATION MULAI DISINI//
 void ItemTampil(Item *barangdummy);
-void RestockBarang(Item *barangdummy);
+void RestockBarang(Item *barangdummy, float modalawal);
 void TampilkanModal(Item *barangdummy, float modalAwal);
 
 
@@ -42,6 +57,7 @@ Item items[NUM_ITEMS] = { //sesuai num of items diatas
 
 int main () {
     float modalawal = 1000000.0; //sejuta?
+    // float *modal = &modalawal;
     float totalpemasukkan = 0;
     float totalpengeluaran = 0;
     int pilihan_main;
@@ -59,6 +75,29 @@ int main () {
     switch(pilihan_main) {
         case 1:
             printf("P");
+            printf("\n--MENU PEMASUKAN--");
+            printf("1. Tampilkan item\n");
+            printf("2. Jurnal Pembelian\n");
+            printf("3. Tampilkan modal\n");
+            printf("Masukkan pilihan anda: ");
+            scanf("%d", &pilihan_pemasukan);
+
+            switch (pilihan_pemasukan) {
+                case 1:
+                    ItemTampil(items);
+                    break;
+                case 2:
+                    //JurnalKeuangan(items, modalawal);
+                    break;
+                case 3:
+                    TampilkanModal(items, modalawal);
+                    break;
+                default:
+                    printf("Pilihan tidak valid.\n");
+                    break;
+                    
+
+            }
             //Pemasukan();//BELOM SELESAI//
             break;
         case 2:
@@ -69,19 +108,20 @@ int main () {
             printf("3. Tampilkan modal\n");
             printf("4. Keluar\n");
             printf("Masukkan pilihan anda: ");
-            scanf("%d", &pilihan_pemasukan);
+            scanf("%d", &pilihan_pengeluaran);
 
             switch (pilihan_pengeluaran) {
                 case 1:
                     ItemTampil(items);
                     break;
                 case 2:
-                    RestockBarang(items);
+                    RestockBarang(items, modalawal);
                     break;
                 case 3:
                     TampilkanModal(items, modalawal);
                     break;
                 case 4:
+                    //JurnalKeuangan(items, )
                     break;
                 default:
                     printf("Pilihan tidak valid.\n");
@@ -103,8 +143,13 @@ void ItemTampil(Item *barangdummy) { // Fungsi untuk menampilkan item
     }
 }
 
-void RestockBarang(Item *barangdummy) { // Fungsi untuk merestock barang
+void RestockBarang(Item *barangdummy, float modalAwal) { // Fungsi untuk merestock barang
     int itemNumber, jumlah;
+    //int *jumlah = &jumlah;
+    printf("\nItem Database:\n");
+    for (int i = 0; i < NUM_ITEMS; i++) {
+        printf("%d. %s - Harga Beli: %.2f", i+1, barangdummy[i].name, barangdummy[i].hargaMarket);
+    }
     printf("\nMasukkan nomor item yang ingin direstock: ");
     scanf("%d", &itemNumber);
     printf("Masukkan jumlah restock untuk %s: ", barangdummy[itemNumber-1].name);
@@ -114,7 +159,8 @@ void RestockBarang(Item *barangdummy) { // Fungsi untuk merestock barang
 }
 
 void TampilkanModal(Item *barangdummy, float modalAwal) { // Fungsi untuk menampilkan modal
-    float totalPengeluaran = 0;
+    float totalPengeluaran;
+
     for (int i = 0; i < NUM_ITEMS; i++) {
         totalPengeluaran += barangdummy[i].stock * barangdummy[i].hargaModal;
     }
@@ -122,3 +168,7 @@ void TampilkanModal(Item *barangdummy, float modalAwal) { // Fungsi untuk menamp
     printf("\nTotal modal yang tersisa: %.2f\n", totalModal);
 }
 //BAGIAN PENGELUARAN SELESAI//
+
+
+//BAGIAN PEMASUKAN//
+
