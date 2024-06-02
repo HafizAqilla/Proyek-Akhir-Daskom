@@ -11,7 +11,7 @@ typedef struct DataBarang {
     char tanggal[BUFFER_SIZE];
     int harga;
     int total_harga;
-    int stock_now
+    int stock_now;
     Item items [NUM_ITEMS];
 } DataBarang;
 
