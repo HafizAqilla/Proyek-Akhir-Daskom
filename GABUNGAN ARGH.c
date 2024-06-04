@@ -31,6 +31,8 @@ typedef struct Item{
 void ItemTampil(Item *barangdummy);
 void RestockBarang(Item *barangdummy, float *modalAwal);
 void TampilkanModal(Item *barangdummy, float *modalAwal);
+void PembelianBarang(Item *barangdummy, float *modalAwal);
+
 // FUNCTION DECLARATION SELESAI //
 
 // DATABASE DUMMY //
@@ -95,7 +97,7 @@ do{
                         ItemTampil(items);
                         break;
                     case 2:
-                        // JurnalKeuangan(items, modalawal);
+                        PembelianBarang(items, &modalawal);
                         break;
                     case 3:
                         TampilkanModal(items, &modalawal);
@@ -188,8 +190,27 @@ void RestockBarang(Item *barangdummy, float *modalAwal) {
 void TampilkanModal(Item *barangdummy, float *modalAwal) { // Fungsi untuk menampilkan modal
     printf("\nTotal modal yang tersisa: %.2f\n", *modalAwal);
 }
-// BAGIAN PENGELUARAN SELESAI //
-void TampilkanModal(Item *barangdummy, float *modalAwal) { // Fungsi untuk menampilkan modal
-    printf("\nTotal modal yang tersisa: %.2f\n", *modalAwal);
+//BAGIAN PEMASUKAN//
+void PembelianBarang(Item *barangdummy, float *modalAwal) { // Fungsi untuk mencatat pemasukan
+    int itemNumber, jumlah, totalmasuk;
+    printf("\nItem Database:\n");
+    printf("0. EXIT\n");
+    for (int i = 0; i < NUM_ITEMS; i++) {
+        printf("%d. %s - Harga Jual: %.2f\n", i + 1, barangdummy[i].name, barangdummy[i].hargaJual);
+    }
+    printf("Masukkan nomor item yang terbeli: ");
+    scanf("%d", &itemNumber);
+    printf("Masukkan jumlah pembelian %s: ", barangdummy[itemNumber - 1].name);
+    scanf("%d", &jumlah);
+
+    float totalHarga = jumlah * barangdummy[itemNumber-1].hargaJual;
+
+    if (*modalAwal >= totalHarga) {
+        barangdummy[itemNumber-1].stock -= jumlah;
+        *modalAwal += totalHarga;
+        printf("Stock %s sekarang: %d\n", barangdummy[itemNumber-1].name, barangdummy[itemNumber-1].stock);
+        printf("Modal tersisa: %.2f\n", *modalAwal);
+    } else {
+        printf("Modal tidak cukup untuk restock %s\n", barangdummy[itemNumber-1].name);
+    }
 }
-// BAGIAN PENGELUARAN SELESAI //
