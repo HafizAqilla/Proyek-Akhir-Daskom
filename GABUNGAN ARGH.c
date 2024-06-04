@@ -6,7 +6,7 @@
 
 // MAIN PROBLEM RN
 // belum ada tampilan profit/defisit
-// (tambahin masalah disini)
+// 
 
 // OPTIONAL PROBLEM
 // rapihin tampilan program: 
@@ -21,6 +21,7 @@ typedef struct Item{
     float hargaModal;
 } Item;
 // STRUCT ITEMS SELESAI //
+
 
 // FUNCTION DECLARATION MULAI DISINI //
 void ItemTampil(Item *barangdummy);
@@ -68,6 +69,9 @@ int main () {
     int pilihan_main;
     int pilihan_pengeluaran;
     int pilihan_pemasukan;
+    int n;
+
+    Item *barangdummy = (Item *)malloc(n * sizeof(Item));
 
 
 // MAIN LOOP //
@@ -152,6 +156,7 @@ int main () {
         }
         loop_main:;
     }
+    free(barangdummy);
     return 0;
 }
 
