@@ -1,7 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include<conio.h>
 #define NUM_ITEMS 10
 #define BUFFER_SIZE 50
 
@@ -190,8 +189,6 @@ void TampilkanModal(Item *barangdummy, float *modalAwal) { // Fungsi untuk menam
     printf("\nTotal modal yang tersisa: %.2f\n", *modalAwal);
 }
 // BAGIAN PENGELUARAN SELESAI //
-
-
 void TampilkanModal(Item *barangdummy, float *modalAwal) { // Fungsi untuk menampilkan modal
     printf("\nTotal modal yang tersisa: %.2f\n", *modalAwal);
 }
