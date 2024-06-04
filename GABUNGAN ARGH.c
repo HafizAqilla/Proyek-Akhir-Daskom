@@ -30,7 +30,7 @@ typedef struct Item{
 //FUNCTION DECLARATION MULAI DISINI//
 void ItemTampil(Item *barangdummy);
 void RestockBarang(Item *barangdummy, float *modalAwal);
-void TampilkanModal(Item *barangdummy, float modalAwal);
+void TampilkanModal(Item *barangdummy, float *modalAwal);
 //FUNCTION DECLARATION SELESAI//
 
 //DATABASE DUMMY//
@@ -84,7 +84,7 @@ int main () {
                         //JurnalKeuangan(items, modalawal);
                         break;
                     case 3:
-                        TampilkanModal(items, modalawal);
+                        TampilkanModal(items, &modalawal);
                         break;
                     default:
                         printf("Pilihan tidak valid.\n");
@@ -92,37 +92,40 @@ int main () {
                 }
                 break;
             case 2:
-                printf("\n--MENU PENGELUARAN--\n");
-                printf("1. Tampilkan item\n");
-                printf("2. Restock barang\n");
-                printf("3. Tampilkan modal\n");
-                printf("4. Keluar\n");
-                printf("Masukkan pilihan anda: ");
-                scanf("%d", &pilihan_pengeluaran);
+                while (1) {
+                    printf("\n--MENU PENGELUARAN--\n");
+                    printf("1. Tampilkan item\n");
+                    printf("2. Restock barang\n");
+                    printf("3. Tampilkan modal\n");
+                    printf("4. Kembali ke main program\n");
+                    printf("Masukkan pilihan anda: ");
+                    scanf("%d", &pilihan_pengeluaran);
 
-                switch (pilihan_pengeluaran) {
-                    case 1:
-                        ItemTampil(items);
-                        break;
-                    case 2:
-                        RestockBarang(items, &modalawal);
-                        break;
-                    case 3:
-                        TampilkanModal(items, modalawal);
-                        break;
-                    case 4:
-                        break;
-                    default:
-                        printf("Pilihan tidak valid.\n");
+                    switch (pilihan_pengeluaran) {
+                        case 1:
+                            ItemTampil(items);
+                            break;
+                        case 2:
+                            RestockBarang(items, &modalawal);
+                            break;
+                        case 3:
+                            TampilkanModal(items, &modalawal);
+                            break;
+                        case 4:
+                            printf("\nKembali ke main program...\n");
+                            return main();
+                            
+                    }
                 }
-                break;
+                
             case 3:
                 printf("Exiting program...\n");
                 return 0;
             default:
                 printf("Pilihan tidak valid.\n");
+                    
         }
-    }    
+    }
     return 0;
 }
 
@@ -164,12 +167,12 @@ void RestockBarang(Item *barangdummy, float *modalAwal) { // Fungsi untuk merest
     }
 }
 
-void TampilkanModal(Item *barangdummy, float modalAwal) { // Fungsi untuk menampilkan modal
+void TampilkanModal(Item *barangdummy, float *modalAwal) { // Fungsi untuk menampilkan modal
     float totalPengeluaran = 0;
     for (int i = 0; i < NUM_ITEMS; i++) {
         totalPengeluaran += barangdummy[i].stock * barangdummy[i].hargaModal;
     }
-    float totalModal = modalAwal - totalPengeluaran;
+    float totalModal = *modalAwal - totalPengeluaran;
     printf("\nTotal modal yang tersisa: %.2f\n", totalModal);
 }
 //BAGIAN PENGELUARAN SELESAI//
