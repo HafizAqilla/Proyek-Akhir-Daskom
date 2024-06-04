@@ -5,17 +5,12 @@
 #define BUFFER_SIZE 50
 
 // MAIN PROBLEM RN
-// belum ada pemasukan
-// belum ada looping
-// belum tau gimana hubungin stock barang dummy(tambah/kurang)
 // belum ada tampilan profit/defisit
-// pas restock/jurnaling kurang tampilan database
 // (tambahin masalah disini)
 
 // OPTIONAL PROBLEM
-// rapihin tampilan program
+// rapihin tampilan program: 
 // database bikin tabel
-// daftar akun buat pemilik toko
 
 // STRUCT ITEMS FOR ALL //
 typedef struct Item{
@@ -32,8 +27,8 @@ void ItemTampil(Item *barangdummy);
 void RestockBarang(Item *barangdummy, float *modalAwal);
 void TampilkanModal(Item *barangdummy, float *modalAwal);
 void PembelianBarang(Item *barangdummy, float *modalAwal);
+void UbahHarga(Item *barangdummy);
 
-// FUNCTION DECLARATION SELESAI //
 
 // DATABASE DUMMY //
 Item items[NUM_ITEMS] = {
@@ -48,33 +43,34 @@ Item items[NUM_ITEMS] = {
     {"Ayam Mentah", 10, 20000.0, 25000.0, 0},
     {"Susu", 10, 30000.0, 35000.0, 0}
 };
-// DATABASE DUMMY SELESAI //
 
 int main () {
+//LOGIN FUNCTION
+    char name[20];
+    char password[10];
+    do{
+        printf("Enter username: ");
+        scanf("%s", name);
+        printf("Enter password: ");
+        scanf("%s", password);
 
-char name[20];
-char password[10];
-do{
- printf("Enter username: ");
-  scanf("%s", name);
-  printf("Enter password: ");
-  scanf("%s", password);
+        if (strcmp(name, "Admin") == 0 && strcmp(password, "pass") == 0) {
+            printf("Akses diberikan \n");
+            break; 
+        } else {
+            printf("Coba lagi.\n");
+        }
+    } while (1); 
 
-  if (strcmp(name, "Admin") == 0 && strcmp(password, "pass") == 0) {
-    printf("Akses diberikan \n");
-    break; 
-  } else {
-    printf("Coba lagi.\n");
-  }
-} while (1); 
 
-    float modalawal = 1000000.0; //sejuta?
+    float modalawal = 1000000.0; 
     float totalpemasukkan = 0;
     int pilihan_main;
     int pilihan_pengeluaran;
     int pilihan_pemasukan;
 
-    // MAIN LOOP //
+
+// MAIN LOOP //
     while (1) {
         printf("\n--JUDUL PROGRAM--\n");
         printf("1. Pemasukkan\n");
@@ -85,35 +81,45 @@ do{
 
         switch(pilihan_main) {
             case 1:
-                printf("\n--MENU PEMASUKAN--\n");
-                printf("1. Tampilkan item\n");
-                printf("2. Jurnal Pembelian\n");
-                printf("3. Tampilkan modal\n");
-                printf("Masukkan pilihan anda: ");
-                scanf("%d", &pilihan_pemasukan);
+                while(1) {
+                    printf("\n--MENU PEMASUKAN--\n");
+                    printf("1. Tampilkan item\n");
+                    printf("2. Jurnal Pembelian\n");
+                    printf("3. Tampilkan modal\n");
+                    printf("4. Ubah harga jual barang\n");
+                    printf("5. Kembali ke menu utama\n");
+                    printf("Masukkan pilihan anda: ");
+                    scanf("%d", &pilihan_pemasukan);
 
-                switch (pilihan_pemasukan) {
-                    case 1:
-                        ItemTampil(items);
-                        break;
-                    case 2:
-                        PembelianBarang(items, &modalawal);
-                        break;
-                    case 3:
-                        TampilkanModal(items, &modalawal);
-                        break;
-                    default:
-                        printf("Pilihan tidak valid.\n");
-                        break;
+                    switch (pilihan_pemasukan) {
+                        case 1:
+                            ItemTampil(items);
+                            break;
+                        case 2:
+                            PembelianBarang(items, &modalawal);
+                            break;
+                        case 3:
+                            TampilkanModal(items, &modalawal);
+                            break;
+                        case 4:
+                            UbahHarga(items);
+                            break;
+                        case 5:
+                            printf("Kembali ke menu utama...\n");
+                            goto loop_main;
+                        default:
+                            printf("Pilihan tidak valid.\n");
+                            break;
+                    } 
                 }
-                break;
             case 2:
                 while (1) {
                     printf("\n--MENU PENGELUARAN--\n");
                     printf("1. Tampilkan item\n");
                     printf("2. Restock barang\n");
                     printf("3. Tampilkan modal\n");
-                    printf("4. Kembali ke main program\n");
+                    printf("4. Ubah harga jual barang\n");
+                    printf("5. Kembali ke menu utama\n");
                     printf("Masukkan pilihan anda: ");
                     scanf("%d", &pilihan_pengeluaran);
 
@@ -128,45 +134,52 @@ do{
                             TampilkanModal(items, &modalawal);
                             break;
                         case 4:
-                            printf("\nKembali ke main program...\n");
-                            goto main_loop; // Return to main loop
+                            UbahHarga(items);
+                            break;
+                        case 5:
+                            printf("\nKembali ke menu utama...\n");
+                            goto loop_main;
                         default:
                             printf("Pilihan tidak valid.\n");
                             break;
                     }
                 }
             case 3:
-                printf("Exiting program...\n");
+                printf("Keluar...\n");
                 return 0;
             default:
                 printf("Pilihan tidak valid.\n");
         }
-        main_loop:; // Label for returning to the main loop
+        loop_main:;
     }
     return 0;
 }
 
-// BAGIAN PENGELUARAN //
+
 void ItemTampil(Item *barangdummy) { // Fungsi untuk menampilkan item
     printf("\nItem Database:\n");
+    printf("| %-3s | %-11s | %-12s | %-10s | %-9s |\n", "No. ", "Nama Barang", "Harga Market", "Harga Jual", "Stock Barang");
     for (int i = 0; i < NUM_ITEMS; i++) {
-        printf("%d. %s - Harga Jual: %.2f - Stock: %d\n", i+1, barangdummy[i].name, barangdummy[i].hargaJual, barangdummy[i].stock);
+        printf("| %-3d | %-11s | %-12.0f | %-10.0f | %-9d |\n", i+1, barangdummy[i].name, barangdummy[i].hargaMarket, barangdummy[i].hargaJual, barangdummy[i].stock);
     }
 }
 
+
 void RestockBarang(Item *barangdummy, float *modalAwal) {
-    int itemNumber, jumlah, exitloop = 1; // Initialize exitloop to a non-zero value
+    int itemNumber, jumlah, exitloop = 1;
     printf("\nItem Database:\n");
-    printf("0. Exit Restock\n");
+    printf("| %-3s | %-11s | %-12s | %-10s | %-9s |\n", "No. ", "Nama Barang", "Harga Market", "Harga Jual", "Stock Barang");
     for (int i = 0; i < NUM_ITEMS; i++) {
-        printf("%d. %s - Harga Beli: %.2f\n", i + 1, barangdummy[i].name, barangdummy[i].hargaMarket);
+        printf("| %-3d | %-11s | %-12.0f | %-10.0f | %-9d |\n", i+1, barangdummy[i].name, barangdummy[i].hargaMarket, barangdummy[i].hargaJual, barangdummy[i].stock);
     }
 
     while (exitloop != 0) {
+        printf("\nKetik 0 untuk kembali ke menu pengeluaran..");
         printf("\nKetik 1 untuk melanjutkan: ");
         scanf("%d", &exitloop);
         if (exitloop == 0) {
-            break; // Exit the loop when input is 0
+            printf("\nKembali ke menu pengeluaran...\n");
+            break;
         }
         printf("Masukkan nomor item yang ingin direstock: ");
         scanf("%d", &itemNumber);
@@ -178,39 +191,78 @@ void RestockBarang(Item *barangdummy, float *modalAwal) {
             barangdummy[itemNumber - 1].stock += jumlah;
             printf("Stock %s sekarang: %d\n", barangdummy[itemNumber - 1].name, barangdummy[itemNumber - 1].stock);
             *modalAwal -= totalHarga;
-            printf("Modal tersisa: %.2f\n", *modalAwal);
+            printf("Modal tersisa: %.0f\n", *modalAwal);
         } else {
-            printf("Modal tidak cukup untuk restock %s\n", barangdummy[itemNumber - 1].name);
+            printf("Modal tidak cukup untuk restock %s!\n", barangdummy[itemNumber - 1].name);
+            continue;
+        }
+    }
+}
+
+void TampilkanModal(Item *barangdummy, float *modalAwal) { // Fungsi untuk menampilkan modal
+    printf("\nTotal modal yang tersisa: %.0f\n", *modalAwal);
+}
+
+
+void PembelianBarang(Item *barangdummy, float *modalAwal) { // Fungsi untuk mencatat pemasukan
+    int itemNumber, jumlah, totalmasuk, exitloop = 1;
+    printf("\nItem Database:\n");
+    printf("| %-3s | %-11s | %-12s | %-10s | %-9s |\n", "No. ", "Nama Barang", "Harga Market", "Harga Jual", "Stock Barang");
+    for (int i = 0; i < NUM_ITEMS; i++) {
+        printf("| %-3d | %-11s | %-12.0f | %-10.0f | %-9d |\n", i+1, barangdummy[i].name, barangdummy[i].hargaMarket, barangdummy[i].hargaJual, barangdummy[i].stock);
+    }
+
+    while (exitloop != 0) {
+        printf("\nKetik 0 untuk kembali ke menu pemasukkan...");
+        printf("\nKetik 1 untuk melanjutkan: ");
+        scanf("%d", &exitloop);
+        if (exitloop == 0) {
+            printf("\nKembali ke menu pemasukkan...\n");
             break;
+        }
+        printf("Masukkan nomor item yang terbeli: ");
+        scanf("%d", &itemNumber);
+        printf("Masukkan jumlah %s yang terbeli: ", barangdummy[itemNumber - 1].name);
+        scanf("%d", &jumlah);
+        float totalHarga = jumlah * barangdummy[itemNumber-1].hargaJual;
+
+        if (jumlah <= barangdummy[itemNumber-1].stock) {
+            barangdummy[itemNumber-1].stock -= jumlah;
+            *modalAwal += totalHarga;
+            printf("Stock %s sekarang: %d\n", barangdummy[itemNumber-1].name, barangdummy[itemNumber-1].stock);
+            printf("Modal tersisa: %.0f\n", *modalAwal);
+        } else {
+            printf("Stock %s sudah habis! \n", barangdummy[itemNumber-1].name);
+            continue;
         }
     }
 }
 
 
-void TampilkanModal(Item *barangdummy, float *modalAwal) { // Fungsi untuk menampilkan modal
-    printf("\nTotal modal yang tersisa: %.2f\n", *modalAwal);
-}
-//BAGIAN PEMASUKAN//
-void PembelianBarang(Item *barangdummy, float *modalAwal) { // Fungsi untuk mencatat pemasukan
-    int itemNumber, jumlah, totalmasuk;
+void UbahHarga(Item *barangdummy) { //Fungsi untuk mengubah harga jual
+    int exitloop = 1, itemNumber;
+    float ubahharga;
     printf("\nItem Database:\n");
-    printf("0. EXIT\n");
+    printf("| %-3s | %-11s | %-12s | %-10s | %-9s |\n", "No. ", "Nama Barang", "Harga Market", "Harga Jual", "Stock Barang");
     for (int i = 0; i < NUM_ITEMS; i++) {
-        printf("%d. %s - Harga Jual: %.2f\n", i + 1, barangdummy[i].name, barangdummy[i].hargaJual);
+        printf("| %-3d | %-11s | %-12.0f | %-10.0f | %-9d |\n", i+1, barangdummy[i].name, barangdummy[i].hargaMarket, barangdummy[i].hargaJual, barangdummy[i].stock);
     }
-    printf("Masukkan nomor item yang terbeli: ");
-    scanf("%d", &itemNumber);
-    printf("Masukkan jumlah pembelian %s: ", barangdummy[itemNumber - 1].name);
-    scanf("%d", &jumlah);
 
-    float totalHarga = jumlah * barangdummy[itemNumber-1].hargaJual;
-
-    if (*modalAwal >= totalHarga) {
-        barangdummy[itemNumber-1].stock -= jumlah;
-        *modalAwal += totalHarga;
-        printf("Stock %s sekarang: %d\n", barangdummy[itemNumber-1].name, barangdummy[itemNumber-1].stock);
-        printf("Modal tersisa: %.2f\n", *modalAwal);
-    } else {
-        printf("Modal tidak cukup untuk restock %s\n", barangdummy[itemNumber-1].name);
+    while(exitloop != 0) {
+        printf("\nKetik 0 untuk kembali ke menu sebelumnya...");
+        printf("\nKetik 1 untuk melanjutkan: ");
+        scanf("%d", &exitloop);
+        if (exitloop == 0) {
+            printf("\nKembali...\n");
+            break;
+        }
+        printf("Masukkan nomor item yang ingin diubah: ");
+        scanf("%d", &itemNumber);
+        printf("Masukkan perubahan harga untuk %s: ", barangdummy[itemNumber -1].name);
+        scanf("%f", &ubahharga);
+        printf("Harga %s sebelumnya: %.0f\n", barangdummy[itemNumber-1].name, barangdummy[itemNumber - 1].hargaJual);
+        barangdummy[itemNumber - 1].hargaJual = ubahharga;
+        printf("Harga %s sekarang: %.0f\n", barangdummy[itemNumber - 1].name, barangdummy[itemNumber - 1].hargaJual);
     }
+
 }
