@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-
+#include<conio.h>
 #define NUM_ITEMS 10
 #define BUFFER_SIZE 50
 
@@ -50,6 +50,23 @@ Item items[NUM_ITEMS] = {
 // DATABASE DUMMY SELESAI //
 
 int main () {
+
+char name[20];
+char password[10];
+do{
+ printf("Enter username: ");
+  scanf("%s", name);
+  printf("Enter password: ");
+  scanf("%s", password);
+
+  if (strcmp(name, "Admin") == 0 && strcmp(password, "pass") == 0) {
+    printf("Akses diberikan \n");
+    break; 
+  } else {
+    printf("Coba lagi.\n");
+  }
+} while (1); 
+
     float modalawal = 1000000.0; //sejuta?
     float totalpemasukkan = 0;
     int pilihan_main;
@@ -167,6 +184,12 @@ void RestockBarang(Item *barangdummy, float *modalAwal) {
         }
     }
 }
+
+
+void TampilkanModal(Item *barangdummy, float *modalAwal) { // Fungsi untuk menampilkan modal
+    printf("\nTotal modal yang tersisa: %.2f\n", *modalAwal);
+}
+// BAGIAN PENGELUARAN SELESAI //
 
 
 void TampilkanModal(Item *barangdummy, float *modalAwal) { // Fungsi untuk menampilkan modal
