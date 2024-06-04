@@ -156,9 +156,9 @@ void RestockBarang(Item *barangdummy, float *modalAwal) { // Fungsi untuk merest
 
         float totalHarga = jumlah * barangdummy[itemNumber-1].hargaMarket;
         if (*modalAwal >= totalHarga) {
-        barangdummy[itemNumber-1].stock += jumlah;
+        barangdummy[itemNumber-1].stock += jumlah; //menambahkan barang yang dibeli ke stock
         printf("Stock %s sekarang: %d\n", barangdummy[itemNumber-1].name, barangdummy[itemNumber-1].stock);
-        *modalAwal -= totalHarga;
+        *modalAwal -= totalHarga; //mengurangi modal dengan harga
         printf("Modal tersisa: %.2f\n", *modalAwal);
         } else {
         printf("Modal tidak cukup untuk restock %s\n", barangdummy[itemNumber-1].name);
