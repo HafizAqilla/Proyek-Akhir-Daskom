@@ -180,13 +180,14 @@ void PembelianBarang(Item *barangdummy, float *modalAwal, float *totalPemasukkan
     printf("Masukkan jumlah pembelian %s: ", barangdummy[itemNumber - 1].name);
     scanf("%d", &jumlah);
 
-    if (barangdummy[itemNumber - 1].stock >= jumlah) {
-        barangdummy[itemNumber - 1].stock -= jumlah;
-        float pemasukkan = jumlah * barangdummy[itemNumber - 1].hargaJual;
-        totalmasuk += pemasukkan;
-        printf("Stock %s sekarang: %d\n", barangdummy[itemNumber - 1].name, barangdummy[itemNumber - 1].stock);
-        printf("Pemasukan dari pembelian: %.2f\n", pemasukkan);
+    float totalHarga = jumlah * barangdummy[itemNumber-1].hargaJual;
+
+    if (*modalAwal >= totalHarga) {
+        barangdummy[itemNumber-1].stock -= jumlah;
+        *modalAwal += totalHarga;
+        printf("Stock %s sekarang: %d\n", barangdummy[itemNumber-1].name, barangdummy[itemNumber-1].stock);
+        printf("Modal tersisa: %.2f\n", *modalAwal);
     } else {
-        printf("Stock %s tidak cukup untuk pembelian %d unit\n", barangdummy[itemNumber - 1].name, jumlah); //hmmm
+        printf("Modal tidak cukup untuk restock %s\n", barangdummy[itemNumber-1].name);
     }
 }
