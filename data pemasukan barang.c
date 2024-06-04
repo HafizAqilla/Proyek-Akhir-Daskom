@@ -47,11 +47,15 @@ int main(void) {
     return 0;
 }
 
-void inputData(DataBarang *barang, int jumlah_tipebarang) {
-    InitializeDatabase(&barangdummy);
-    printf("Masukkan tanggal pembelian: ");
-    fgets(barang[0].tanggal, BUFFER_SIZE, stdin);
-    barang[0].tanggal[strcspn(barang[0].tanggal, "\n")] = '\0';
+void inputData(Item *barangdummy, float *modalAwal) {
+    //printf("Masukkan tanggal pembelian: ");
+    //fgets(barang[0].tanggal, BUFFER_SIZE, stdin);
+    //barang[0].tanggal[strcspn(barang[0].tanggal, "\n")] = '\0';
+    printf("\nItemDatabase:\n");
+    printf("0. Exit Journal\n");
+    for (int i = 0; i < NUM_ITEMS; i++) {
+        printf("%d. %s - Harga Beli: %.2f\n", i+1, barangdummy[i].name, barangdummy[i].hargaMarket);
+    }
 
     for (int i = 0; i < jumlah_tipebarang; i ++) {
     printf("Masukkan nomor barang: ");

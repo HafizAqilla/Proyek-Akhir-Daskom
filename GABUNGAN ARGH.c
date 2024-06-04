@@ -45,6 +45,7 @@ Item items[NUM_ITEMS] = {
     {"Permen", 10, 8000.0, 10000.0, 0},
     {"Ayam Mentah", 10, 20000.0, 25000.0, 0},
     {"Susu", 10, 30000.0, 35000.0, 0}
+
 };
 //DATABASE DUMMY SELESAI//
 
@@ -134,25 +135,32 @@ void ItemTampil(Item *barangdummy) { // Fungsi untuk menampilkan item
 }
 
 void RestockBarang(Item *barangdummy, float *modalAwal) { // Fungsi untuk merestock barang
-    int itemNumber, jumlah;
+    int itemNumber, jumlah, exitloop;
     printf("\nItem Database:\n");
+    printf("0. Exit Restock\n");
     for (int i = 0; i < NUM_ITEMS; i++) {
         printf("%d. %s - Harga Beli: %.2f\n", i+1, barangdummy[i].name, barangdummy[i].hargaMarket);
     }
-    printf("Masukkan nomor item yang ingin direstock: ");
-    scanf("%d", &itemNumber);
-    printf("Masukkan jumlah restock untuk %s: ", barangdummy[itemNumber-1].name);
-    scanf("%d", &jumlah);
 
-    float totalHarga = jumlah * barangdummy[itemNumber-1].hargaMarket;
+    
+    while (exitloop != 0) { //masalah//
+        printf("\nKetik 1 untuk melanjutkan: ");
+        scanf("%d", &exitloop);
+        printf("Masukkan nomor item yang ingin direstock: ");
+        scanf("%d", &itemNumber);
+        printf("Masukkan jumlah restock untuk %s: ", barangdummy[itemNumber-1].name);
+        scanf("%d", &jumlah);
 
-    if (*modalAwal >= totalHarga) {
+        float totalHarga = jumlah * barangdummy[itemNumber-1].hargaMarket;
+        if (*modalAwal >= totalHarga) {
         barangdummy[itemNumber-1].stock += jumlah;
-        *modalAwal -= totalHarga;
         printf("Stock %s sekarang: %d\n", barangdummy[itemNumber-1].name, barangdummy[itemNumber-1].stock);
+        *modalAwal -= totalHarga;
         printf("Modal tersisa: %.2f\n", *modalAwal);
-    } else {
+        } else {
         printf("Modal tidak cukup untuk restock %s\n", barangdummy[itemNumber-1].name);
+        break;
+        }
     }
 }
 

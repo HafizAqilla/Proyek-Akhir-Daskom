@@ -81,7 +81,7 @@ int main () {
                         ItemTampil(items);
                         break;
                     case 2:
-                         PembelianBarang(items, &modalawal, &totalpemasukkan);;
+                        PembelianBarang(items, &modalawal, &totalpemasukkan);
                         break;
                     case 3:
                         TampilkanModal(items, modalawal);
@@ -169,23 +169,24 @@ void TampilkanModal(Item *barangdummy, float modalAwal) { // Fungsi untuk menamp
 
 //BAGIAN PEMASUKAN//
 void PembelianBarang(Item *barangdummy, float *modalAwal, float *totalPemasukkan) { // Fungsi untuk mencatat pemasukan
-    int itemNumber, jumlah;
+    int itemNumber, jumlah, totalmasuk;
     printf("\nItem Database:\n");
+    printf("0. EXIT\n");
     for (int i = 0; i < NUM_ITEMS; i++) {
         printf("%d. %s - Harga Jual: %.2f\n", i + 1, barangdummy[i].name, barangdummy[i].hargaJual);
     }
-    printf("Masukkan nomor item yang ingin dibeli: ");
+    printf("Masukkan nomor item yang terbeli: ");
     scanf("%d", &itemNumber);
-    printf("Masukkan jumlah pembelian untuk %s: ", barangdummy[itemNumber - 1].name);
+    printf("Masukkan jumlah pembelian %s: ", barangdummy[itemNumber - 1].name);
     scanf("%d", &jumlah);
 
     if (barangdummy[itemNumber - 1].stock >= jumlah) {
         barangdummy[itemNumber - 1].stock -= jumlah;
         float pemasukkan = jumlah * barangdummy[itemNumber - 1].hargaJual;
-        *totalPemasukkan += pemasukkan;
+        totalmasuk += pemasukkan;
         printf("Stock %s sekarang: %d\n", barangdummy[itemNumber - 1].name, barangdummy[itemNumber - 1].stock);
         printf("Pemasukan dari pembelian: %.2f\n", pemasukkan);
     } else {
-        printf("Stock %s tidak cukup untuk pembelian %d unit\n", barangdummy[itemNumber - 1].name, jumlah);
+        printf("Stock %s tidak cukup untuk pembelian %d unit\n", barangdummy[itemNumber - 1].name, jumlah); //hmmm
     }
 }
