@@ -1,23 +1,24 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+
 #define NUM_ITEMS 10
 #define BUFFER_SIZE 50
 
-//MAIN PROBLEM RN
-//belum ada pemasukan
-//belum ada looping
-//belum tau gimana hubungin stock barang dummy(tambah/kurang)
-//belum ada tampilan profit/defisit
-//pas restock/jurnaling kurang tampilan database
-//(tambahin masalah disini)
+// MAIN PROBLEM RN
+// belum ada pemasukan
+// belum ada looping
+// belum tau gimana hubungin stock barang dummy(tambah/kurang)
+// belum ada tampilan profit/defisit
+// pas restock/jurnaling kurang tampilan database
+// (tambahin masalah disini)
 
-//OPTIONAL PROBLEM
-//rapihin tampilan program
-//database bikin tabel
-//daftar akun buat pemilik toko
+// OPTIONAL PROBLEM
+// rapihin tampilan program
+// database bikin tabel
+// daftar akun buat pemilik toko
 
-//STRUCT ITEMS FOR ALL//
+// STRUCT ITEMS FOR ALL //
 typedef struct Item{
     char name[30];
     int stock;
@@ -25,15 +26,15 @@ typedef struct Item{
     float hargaJual;
     float hargaModal;
 } Item;
-//STRUCT ITEMS SELESAI//
+// STRUCT ITEMS SELESAI //
 
-//FUNCTION DECLARATION MULAI DISINI//
+// FUNCTION DECLARATION MULAI DISINI //
 void ItemTampil(Item *barangdummy);
 void RestockBarang(Item *barangdummy, float *modalAwal);
 void TampilkanModal(Item *barangdummy, float *modalAwal);
-//FUNCTION DECLARATION SELESAI//
+// FUNCTION DECLARATION SELESAI //
 
-//DATABASE DUMMY//
+// DATABASE DUMMY //
 Item items[NUM_ITEMS] = {
     {"Garam", 10, 3000.0, 5000.0, 0},
     {"Kopi", 10, 6500.0, 8000.0, 0},
@@ -45,20 +46,17 @@ Item items[NUM_ITEMS] = {
     {"Permen", 10, 8000.0, 10000.0, 0},
     {"Ayam Mentah", 10, 20000.0, 25000.0, 0},
     {"Susu", 10, 30000.0, 35000.0, 0}
-
 };
-//DATABASE DUMMY SELESAI//
+// DATABASE DUMMY SELESAI //
 
 int main () {
     float modalawal = 1000000.0; //sejuta?
-    // float *modal = &modalawal;
     float totalpemasukkan = 0;
-    float totalpengeluaran = 0;
     int pilihan_main;
     int pilihan_pengeluaran;
     int pilihan_pemasukan;
 
-    //MAIN LOOP//
+    // MAIN LOOP //
     while (1) {
         printf("\n--JUDUL PROGRAM--\n");
         printf("1. Pemasukkan\n");
@@ -81,7 +79,7 @@ int main () {
                         ItemTampil(items);
                         break;
                     case 2:
-                        //JurnalKeuangan(items, modalawal);
+                        // JurnalKeuangan(items, modalawal);
                         break;
                     case 3:
                         TampilkanModal(items, &modalawal);
@@ -113,23 +111,24 @@ int main () {
                             break;
                         case 4:
                             printf("\nKembali ke main program...\n");
-                            return main();
-                            
+                            goto main_loop; // Return to main loop
+                        default:
+                            printf("Pilihan tidak valid.\n");
+                            break;
                     }
                 }
-                
             case 3:
                 printf("Exiting program...\n");
                 return 0;
             default:
                 printf("Pilihan tidak valid.\n");
-                    
         }
+        main_loop:; // Label for returning to the main loop
     }
     return 0;
 }
 
-//BAGIAN PENGELUARAN//
+// BAGIAN PENGELUARAN //
 void ItemTampil(Item *barangdummy) { // Fungsi untuk menampilkan item
     printf("\nItem Database:\n");
     for (int i = 0; i < NUM_ITEMS; i++) {
@@ -137,44 +136,40 @@ void ItemTampil(Item *barangdummy) { // Fungsi untuk menampilkan item
     }
 }
 
-void RestockBarang(Item *barangdummy, float *modalAwal) { // Fungsi untuk merestock barang
-    int itemNumber, jumlah, exitloop;
+void RestockBarang(Item *barangdummy, float *modalAwal) {
+    int itemNumber, jumlah, exitloop = 1; // Initialize exitloop to a non-zero value
     printf("\nItem Database:\n");
     printf("0. Exit Restock\n");
     for (int i = 0; i < NUM_ITEMS; i++) {
-        printf("%d. %s - Harga Beli: %.2f\n", i+1, barangdummy[i].name, barangdummy[i].hargaMarket);
+        printf("%d. %s - Harga Beli: %.2f\n", i + 1, barangdummy[i].name, barangdummy[i].hargaMarket);
     }
 
-    
-    while (exitloop != 0) { //masalah//
+    while (exitloop != 0) {
         printf("\nKetik 1 untuk melanjutkan: ");
         scanf("%d", &exitloop);
+        if (exitloop == 0) {
+            break; // Exit the loop when input is 0
+        }
         printf("Masukkan nomor item yang ingin direstock: ");
         scanf("%d", &itemNumber);
-        printf("Masukkan jumlah restock untuk %s: ", barangdummy[itemNumber-1].name);
+        printf("Masukkan jumlah restock untuk %s: ", barangdummy[itemNumber - 1].name);
         scanf("%d", &jumlah);
 
-        float totalHarga = jumlah * barangdummy[itemNumber-1].hargaMarket;
+        float totalHarga = jumlah * barangdummy[itemNumber - 1].hargaMarket;
         if (*modalAwal >= totalHarga) {
-        barangdummy[itemNumber-1].stock += jumlah; //menambahkan barang yang dibeli ke stock
-        printf("Stock %s sekarang: %d\n", barangdummy[itemNumber-1].name, barangdummy[itemNumber-1].stock);
-        *modalAwal -= totalHarga; //mengurangi modal dengan harga
-        printf("Modal tersisa: %.2f\n", *modalAwal);
+            barangdummy[itemNumber - 1].stock += jumlah;
+            printf("Stock %s sekarang: %d\n", barangdummy[itemNumber - 1].name, barangdummy[itemNumber - 1].stock);
+            *modalAwal -= totalHarga;
+            printf("Modal tersisa: %.2f\n", *modalAwal);
         } else {
-        printf("Modal tidak cukup untuk restock %s\n", barangdummy[itemNumber-1].name);
-        break;
+            printf("Modal tidak cukup untuk restock %s\n", barangdummy[itemNumber - 1].name);
+            break;
         }
     }
 }
 
-void TampilkanModal(Item *barangdummy, float *modalAwal) { // Fungsi untuk menampilkan modal
-    float totalPengeluaran = 0;
-    for (int i = 0; i < NUM_ITEMS; i++) {
-        totalPengeluaran += barangdummy[i].stock * barangdummy[i].hargaModal;
-    }
-    float totalModal = *modalAwal - totalPengeluaran;
-    printf("\nTotal modal yang tersisa: %.2f\n", totalModal);
-}
-//BAGIAN PENGELUARAN SELESAI//
 
-//BAGIAN PEMASUKAN//
+void TampilkanModal(Item *barangdummy, float *modalAwal) { // Fungsi untuk menampilkan modal
+    printf("\nTotal modal yang tersisa: %.2f\n", *modalAwal);
+}
+// BAGIAN PENGELUARAN SELESAI //
