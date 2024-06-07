@@ -56,7 +56,7 @@ int main () {
 //LOGIN FUNCTION
     char name[20];
     char password[10];
-    printf("---SISTEM MANAJEMEN TOSERBA (JUDUL PROGRAM)\nSilahkan login akun anda\n");
+    printf("---SISTEM MANAJEMEN TOSERBA (SMART MART)\nSilahkan login akun anda\n");
     do{
         printf("Username: ");
         scanf("%s", name);
@@ -85,7 +85,7 @@ int main () {
 
 // MAIN LOOP //
     while (1) {
-        printf("\n--JUDUL PROGRAM--\n");
+        printf("\n--SMART MART--\n");
         printf("1. Catat Pemasukkan Toko\n");
         printf("2. Melakukan Pengeluaran Toko\n");
         printf("3. Cek Profit/Defisit Hari Ini\n");
@@ -198,37 +198,27 @@ void RestockBarang(Item *barangdummy, cashflow *cashflowptr, float *modalAwal, f
         printf("| %-3d | %-11s | %-12.0f | %-10.0f | %-9d |\n", i+1, barangdummy[i].name, barangdummy[i].hargaMarket, barangdummy[i].hargaJual, barangdummy[i].stock);
     }
 
-    while(exitloop != 0) {
-        printf("\nKetik 0 untuk kembali ke menu pengeluaran...");
+    while (exitloop != 0) {
+        printf("\nKetik 0 untuk kembali ke menu pengeluaran..");
         printf("\nKetik 1 untuk melanjutkan: ");
-
-        if (scanf("%d", &exitloop) != 0 || exitloop != 1) {
-            if (exitloop == 0) {
-            printf("\nKembali...\n");
+        scanf("%d", &exitloop);
+        if (exitloop == 0) {
+            printf("\nKembali ke menu pengeluaran...\n");
             break;
-            }
-            printf("Mohon ketik angka yang sesuai!\n");
-            // Clear input buffer
-            while (getchar() != '\n');
-            continue;
         }
-
-        while (exitloop == 1) {
-            printf("Masukkan nomor item yang ingin direstock: ");
-            scanf("%d", &itemNumber);
-            printf("Masukkan jumlah restock untuk %s: ", barangdummy[itemNumber - 1].name);
-            scanf("%d", &jumlah);
-
-            *uangkeluar = jumlah * barangdummy[itemNumber - 1].hargaMarket;
-            if (*modalAwal >= *uangkeluar) {
-                barangdummy[itemNumber - 1].stock += jumlah;
-                printf("Stock %s sekarang: %d\n", barangdummy[itemNumber - 1].name, barangdummy[itemNumber - 1].stock);
-                *modalAwal -= *uangkeluar;
-                printf("Modal tersisa: %.0f\n", *modalAwal);
-            } else {
-                printf("Modal tidak cukup untuk restock %s!\n", barangdummy[itemNumber - 1].name);
-                continue;
-            }
+        printf("Masukkan nomor item yang ingin direstock: ");
+        scanf("%d", &itemNumber);
+        printf("Masukkan jumlah restock untuk %s: ", barangdummy[itemNumber - 1].name);
+        scanf("%d", &jumlah);
+        float totalHarga = jumlah * barangdummy[itemNumber - 1].hargaMarket;
+        if (*modalAwal >= totalHarga) {
+            barangdummy[itemNumber - 1].stock += jumlah;
+            printf("Stock %s sekarang: %d\n", barangdummy[itemNumber - 1].name, barangdummy[itemNumber - 1].stock);
+            *modalAwal -= totalHarga;
+            printf("Modal tersisa: %.0f\n", *modalAwal);
+        } else {
+            printf("Modal tidak cukup untuk restock %s!\n", barangdummy[itemNumber - 1].name);
+            continue;
         }
     }
 }
