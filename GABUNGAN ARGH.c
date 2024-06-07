@@ -4,11 +4,6 @@
 #define NUM_ITEMS 10
 #define BUFFER_SIZE 50
 
-// MAIN PROBLEM RN
-
-
-// OPTIONAL PROBLEM
-// rapihin tampilan program: 
 
 // STRUCT ITEMS FOR ALL //
 typedef struct Item{
