@@ -110,8 +110,6 @@ int main () {
                             ItemTampil(items);
                             break;
                         case 2:
-                            printf("Tanggal transaksi hari ini (Hari, Tanggal Bulan Tahun): ");
-                            fgets(cashflowptr->tanggal, BUFFER_SIZE, stdin);
                             PembelianBarang(items, cashflowptr, &modalawal, &totalpemasukkan);
                             break;
                         case 3:
@@ -191,6 +189,9 @@ void ItemTampil(Item *barangdummy) { // Fungsi untuk menampilkan item
 void RestockBarang(Item *barangdummy, cashflow *cashflowptr, float *modalAwal, float *uangkeluar) { //Fungsi untuk restock barang
     int itemNumber, jumlah, exitloop = 1;
 
+    printf("Tanggal transaksi hari ini (Hari, Tanggal Bulan Tahun): ");
+    scanf(" %[^\n]%*c", cashflowptr->tanggal);
+
     printf("\n-DATA BARANG-\n");
     printf("| %-3s | %-11s | %-12s | %-10s | %-9s |\n", "No. ", "Nama Barang", "Harga Market", "Harga Jual", "Stock Barang");
     for (int i = 0; i < NUM_ITEMS; i++) {
@@ -201,7 +202,7 @@ void RestockBarang(Item *barangdummy, cashflow *cashflowptr, float *modalAwal, f
         printf("\nKetik 0 untuk kembali ke menu pengeluaran...");
         printf("\nKetik 1 untuk melanjutkan: ");
 
-        if (scanf("%d", &exitloop) != 1 || exitloop != 1) {
+        if (scanf("%d", &exitloop) != 0 || exitloop != 1) {
             if (exitloop == 0) {
             printf("\nKembali...\n");
             break;
@@ -240,43 +241,36 @@ void TampilkanModal(Item *barangdummy, float *modalAwal) { // Fungsi untuk menam
 void PembelianBarang(Item *barangdummy, cashflow *cashflowptr, float *modalAwal, float *uangmasuk) { // Fungsi untuk mencatat pemasukan
     int itemNumber, jumlah, exitloop = 1;
 
+    printf("Tanggal transaksi hari ini (Hari, Tanggal Bulan Tahun): ");
+    scanf(" %[^\n]%*c", cashflowptr->tanggal);
+
     printf("\n-DATA BARANG-\n");
     printf("| %-3s | %-11s | %-12s | %-10s | %-9s |\n", "No. ", "Nama Barang", "Harga Market", "Harga Jual", "Stock Barang");
     for (int i = 0; i < NUM_ITEMS; i++) {
         printf("| %-3d | %-11s | %-12.0f | %-10.0f | %-9d |\n", i+1, barangdummy[i].name, barangdummy[i].hargaMarket, barangdummy[i].hargaJual, barangdummy[i].stock);
     }
 
-    while(exitloop != 0) {
+    while (exitloop != 0) {
         printf("\nKetik 0 untuk kembali ke menu pemasukkan...");
         printf("\nKetik 1 untuk melanjutkan: ");
-
-        if (scanf("%d", &exitloop) != 1 || exitloop != 1) {
-            if (exitloop == 0) {
-            printf("\nKembali...\n");
+        scanf("%d", &exitloop);
+        if (exitloop == 0) {
+            printf("\nKembali ke menu pemasukkan...\n");
             break;
-            }
-            printf("Mohon ketik angka yang sesuai!\n");
-            // Clear input buffer
-            while (getchar() != '\n');
-            continue;
         }
-
-        while (exitloop == 1) {
-            printf("Masukkan nomor item yang terbeli: ");
-            scanf("%d", &itemNumber);
-            printf("Masukkan jumlah %s yang terbeli: ", barangdummy[itemNumber - 1].name);
-            scanf("%d", &jumlah);
-            *uangmasuk = jumlah * barangdummy[itemNumber-1].hargaJual;
-
-            if (jumlah <= barangdummy[itemNumber-1].stock) {
-                barangdummy[itemNumber-1].stock -= jumlah;
-                *modalAwal += *uangmasuk;
-                printf("Stock %s sekarang: %d\n", barangdummy[itemNumber-1].name, barangdummy[itemNumber-1].stock);
-                printf("Modal tersisa: %.0f\n", *modalAwal);
-            } else {
-                printf("Stock %s sudah habis! \n", barangdummy[itemNumber-1].name);
-                continue;
-            }
+        printf("Masukkan nomor item yang terbeli: ");
+        scanf("%d", &itemNumber);
+        printf("Masukkan jumlah %s yang terbeli: ", barangdummy[itemNumber - 1].name);
+        scanf("%d", &jumlah);
+        *uangmasuk = jumlah * barangdummy[itemNumber-1].hargaJual;
+        if (jumlah <= barangdummy[itemNumber-1].stock) {
+            barangdummy[itemNumber-1].stock -= jumlah;
+            *modalAwal += *uangmasuk;
+            printf("Stock %s sekarang: %d\n", barangdummy[itemNumber-1].name, barangdummy[itemNumber-1].stock);
+            printf("Modal tersisa: %.0f\n", *modalAwal);
+        } else {
+            printf("Stock %s sudah habis! \n", barangdummy[itemNumber-1].name);
+            continue;
         }
     }
 }
@@ -285,37 +279,29 @@ void PembelianBarang(Item *barangdummy, cashflow *cashflowptr, float *modalAwal,
 void UbahHarga(Item *barangdummy) { //Fungsi untuk mengubah harga jual
     int exitloop = 1, itemNumber;
     float ubahharga;
+
     printf("\n-DATA BARANG-\n");
     printf("| %-3s | %-11s | %-12s | %-10s | %-9s |\n", "No. ", "Nama Barang", "Harga Market", "Harga Jual", "Stock Barang");
     for (int i = 0; i < NUM_ITEMS; i++) {
         printf("| %-3d | %-11s | %-12.0f | %-10.0f | %-9d |\n", i+1, barangdummy[i].name, barangdummy[i].hargaMarket, barangdummy[i].hargaJual, barangdummy[i].stock);
     }
 
-    while(exitloop != 0) {
-        printf("\nKetik 0 untuk kembali ke menu sebelumnya...");
+    while (exitloop != 0) {
+        printf("\nKetik 0 untuk kembali ke menu sebelumnya..");
         printf("\nKetik 1 untuk melanjutkan: ");
-
-        if (scanf("%d", &exitloop) != 1 || exitloop != 1) {
-            if (exitloop == 0) {
+        scanf("%d", &exitloop);
+        if (exitloop == 0) {
             printf("\nKembali...\n");
             break;
-            }
-            printf("Mohon ketik angka yang sesuai!\n");
-            // Clear input buffer
-            while (getchar() != '\n');
-            continue;
         }
-
-        while (exitloop == 1) {
         printf("Masukkan nomor item yang ingin diubah: ");
         scanf("%d", &itemNumber);
-        printf("Masukkan perubahan harga untuk %s: ", barangdummy[itemNumber -1].name);
+        printf("Masukkan perubahan harga untuk %s: ", barangdummy[itemNumber - 1].name);
         scanf("%f", &ubahharga);
         printf("Harga %s sebelumnya: %.0f\n", barangdummy[itemNumber-1].name, barangdummy[itemNumber - 1].hargaJual);
         barangdummy[itemNumber - 1].hargaJual = ubahharga;
-        printf("Harga %s sekarang: %.0f\n", barangdummy[itemNumber - 1].name, barangdummy[itemNumber - 1].hargaJual);   
-        }
-    }   
+        printf("Harga %s sekarang: %.0f\n", barangdummy[itemNumber - 1].name, barangdummy[itemNumber - 1].hargaJual);
+    }
 }
 
 void ProfitDefisit(float *uangkeluar, float *uangmasuk, cashflow *cashflowptr) { //Fungsi untuk profit dan defisit
