@@ -56,7 +56,7 @@ int main () {
 //LOGIN FUNCTION
     char name[20];
     char password[10];
-    printf("---SISTEM MANAJEMEN TOSERBA (JUDUL PROGRAM)\nSilahkan login akun anda\n");
+    printf("---SISTEM MANAJEMEN TOSERBA (SMART MART)\nSilahkan login akun anda\n");
     do{
         printf("Username: ");
         scanf("%s", name);
