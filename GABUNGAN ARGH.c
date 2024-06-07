@@ -85,7 +85,7 @@ int main () {
 
 // MAIN LOOP //
     while (1) {
-        printf("\n--JUDUL PROGRAM--\n");
+        printf("\n--SMART MART--\n");
         printf("1. Catat Pemasukkan Toko\n");
         printf("2. Melakukan Pengeluaran Toko\n");
         printf("3. Cek Profit/Defisit Hari Ini\n");
